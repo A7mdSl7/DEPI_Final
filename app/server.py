@@ -2,7 +2,7 @@ import base64
 import sys
 import pickle
 import numpy as np
-
+from fastapi.middleware.cors import CORSMiddleware
 # Third-party libraries
 try:
     from tensorflow.keras.models import load_model
@@ -22,6 +22,7 @@ PORT = 8080
 MODEL_PATH = r"Models/asl_landmarks_final.h5"
 CLASSES_PATH = r"Models/asl_landmarks_classes.pkl"
 HISTORY_SIZE = 5  # For smoothing predictions over frames
+
 
 # --- Initialize ML Resources (Global, loaded once) ---
 print("Loading Model and Classes...")
@@ -46,6 +47,16 @@ hands = mp_hands.Hands(
 
 # --- FastAPI Application Instance ---
 app = FastAPI(title="ASL Real-time WebSocket Server")
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # --- Utility Functions (Kept the same) ---
 

@@ -91,7 +91,7 @@
     <script>
         // Configuration
         const WEBSOCKET_URL = "ws://localhost:8080/sign-model"; // REPLACE with your actual server URL
-        const FRAME_SEND_INTERVAL = 1000; // Send 10 frames per second (100ms interval)
+        const FRAME_SEND_INTERVAL = 10000; // Send 10 frames per second (100ms interval)
         const CANVAS_WIDTH = 320; // Resolution to send to the server
         const CANVAS_HEIGHT = 240;
 
@@ -180,44 +180,48 @@
         // --- Sentence Building Logic ---
 
         function handleServerResponse(data) {
-            // This function handles the message received from the server.
-            // data is expected to be a single predicted character string (e.g., "A", "B", "Hello").
-            
-            const predictedChar = data.toUpperCase();
-
-            // Ignore non-alphanumeric/non-space characters for basic sentence building
-            if (!/^[A-Z0-9 ]$/.test(predictedChar)) {
-                 currentPrediction.textContent = predictedChar;
-                 return; // Ignore garbage predictions
-            }
-
+        // ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N',
+        //  'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'del', 'space']
+            const predictedChar = data;
             currentPrediction.textContent = predictedChar;
-
-            // Simple debounce logic: only add the character if it's different from the last one
-            // This prevents adding the same character repeatedly while holding a sign.
-            if (predictedChar !== ' ' && predictedChar !== lastPredictedChar) {
-                sentence += predictedChar;
-                sentenceOutput.textContent = sentence;
-                lastPredictedChar = predictedChar;
-            } else if (predictedChar === ' ' && lastPredictedChar !== ' ') {
-                // If the prediction is a space and the last one wasn't, add a space
-                sentence += ' ';
-                sentenceOutput.textContent = sentence;
-                lastPredictedChar = ' ';
+            if (predictedChar === lastPredictedChar) {
+                return; // Skip duplicate predictions
             }
+            if (predictedChar === 'del') {
+                // Handle delete action
+                if (sentence.length > 0) {
+                    sentence = sentence.slice(0, -1);
+                    sentenceOutput.textContent = sentence || '(Sentence cleared...)';
+                }
+                lastPredictedChar = predictedChar;
+                return;
+            }
+            if (predictedChar === 'space') {
+                // Handle space action
+                if (sentence.length > 0 && sentence.slice(-1) !== ' ') {
+                    sentence += ' ';
+                    sentenceOutput.textContent = sentence;
+                }
+                lastPredictedChar = predictedChar;
+                return;
+            }
+            // Append predicted character to the sentence
+            sentence += predictedChar;
+            sentenceOutput.textContent = sentence;
+            lastPredictedChar = predictedChar;
         }
 
-        function mockServerResponse() {
-            // MOCK FUNCTION: Simulates server processing and response latency.
-            // Replace the actual ws.onmessage logic with a simple handler that calls handleServerResponse(receivedData)
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-            const randomChar = characters.charAt(Math.floor(Math.random() * characters.length));
+        // function mockServerResponse() {
+        //     // MOCK FUNCTION: Simulates server processing and response latency.
+        //     // Replace the actual ws.onmessage logic with a simple handler that calls handleServerResponse(receivedData)
+        //     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        //     const randomChar = characters.charAt(Math.floor(Math.random() * characters.length));
             
-            // Simulate 50ms processing delay
-            setTimeout(() => {
-                handleServerResponse(randomChar);
-            }, 50); 
-        }
+        //     // Simulate 50ms processing delay
+        //     setTimeout(() => {
+        //         handleServerResponse(randomChar);
+        //     }, 50); 
+        // }
 
         // --- WebSocket Setup ---
 
@@ -238,17 +242,13 @@
             };
 
             ws.onmessage = (event) => {
-                // IMPORTANT: Replace the mockServerResponse with direct call to handleServerResponse(event.data)
-                // when connecting to a real server.
-                // For this demo, we mock the prediction since the connection to localhost:8080 will likely fail.
+                // send frame to server and handle response
+                sendFrame();
+                // Receive predicted character from server
+                const data = event.data;
 
-                // ---> START OF REAL SERVER LOGIC
-                // handleServerResponse(event.data); 
-                // <--- END OF REAL SERVER LOGIC
+                handleServerResponse(data);
 
-                // ---> START OF MOCK LOGIC (Remove this block for real use)
-                mockServerResponse();
-                // <--- END OF MOCK LOGIC
 
             };
 

@@ -11,20 +11,22 @@
 
 ## 📁 Repository Structure
 
-DEPI_Final/
-│
-├─ Models/ ← Contains pretrained models and_classes
-│ ├─ asl_landmarks_final.h5
-│ ├─ asl_landmarks_best.h5
-│ └─ asl_landmarks_classes.pkl
-│
-├─ WebApp/ ← Frontend code (HTML + JS + CSS)
-│ └─ index.html ← Client-side interface (webcam feed, UI)
-│
-├─ server.py ← WebSocket backend server (FastAPI)
-├─ mock_ws_server.py ← Optional: mock WebSocket server that sends random predictions
-├─ requirements / pyproject.toml ← Dependencies and environment configuration
-└─ README.md ← This documentation file
+```
+    DEPI_Final/
+    │
+    ├─ Models/ ← Contains pretrained models and_classes
+    │ ├─ asl_landmarks_final.h5
+    │ ├─ asl_landmarks_best.h5
+    │ └─ asl_landmarks_classes.pkl
+    │
+    ├─ WebApp/ ← Frontend code (HTML + JS + CSS)
+    │ └─ index.html ← Client-side interface (webcam feed, UI)
+    │
+    ├─ server.py ← WebSocket backend server (FastAPI)
+    ├─ mock_ws_server.py ← Optional: mock WebSocket server that sends random predictions
+    ├─ requirements / pyproject.toml ← Dependencies and environment configuration
+    └─ README.md ← This documentation file
+```
 
 ## 🛠️ Setup & Run
 

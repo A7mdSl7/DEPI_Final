@@ -99,6 +99,7 @@ Then deploy or open frontend and it will connect to backend via Ngrok.
 - ✅ Prediction display on frontend (live, per frame)
 - ✅ Mock server support — useful for UI testing without running ML backend
 - ⚠️ Real model predictions depend on correct frame preprocessing and model input shape. If results are random or incorrect, check:
+  
   - Model loading path
   - Preprocessing steps (resizing, normalization, landmarks extraction)
   - That webcam feed resolution matches model expectations
@@ -130,15 +131,14 @@ Contributions are welcome! Some ideas:
 - Add features: logging, saving sessions, exporting translated text
   To contribute:
 
-`git fork
+```
+git fork
 git checkout -b feature/<your-feature-name>
 make changes
 git commit -m "Add <feature>"
 git push origin feature/<your-feature-name>
-
 # then open Pull Request
-
-`
+```
 
 ### 📄 License & Credits
 

@@ -137,8 +137,8 @@ git checkout -b feature/<your-feature-name>
 make changes
 git commit -m "Add <feature>"
 git push origin feature/<your-feature-name>
-# then open Pull Request
 ```
+> _then open Pull Request_
 
 ### 📄 License & Credits
 

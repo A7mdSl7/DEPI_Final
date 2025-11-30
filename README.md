@@ -57,9 +57,6 @@
 - For real model:
   `uv run uvicorn server:app --host 0.0.0.0 --port 8080 --reload`
 
-- Or run mock server (for testing frontend without ML model):
-  `python mock_ws_server.py`
-
 4. Open the client:
 
 - Either open `WebApp/index.html` locally (double-click or `file://...`) — not recommended for cross-origin requests.
@@ -110,7 +107,7 @@ Then deploy or open frontend and it will connect to backend via Ngrok.
 - FastAPI & WebSockets — server-side realtime communication
 - TensorFlow — deep learning model for gesture recognition
 - MediaPipe — hand / pose landmark detection from webcam frames
-- Frontend: HTML, JavaScript, CSS (with Tailwind CSS)
+- Frontend: HTML, JavaScript, CSS
 - Optional: tunneling via ngrok for public access
 
 ### 🎯 How to Use

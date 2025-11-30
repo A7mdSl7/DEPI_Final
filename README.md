@@ -62,7 +62,7 @@
 
 4. Open the client:
 
-- Either open WebApp/index.html locally (double-click or file://...) — not recommended for cross-origin requests.
+- Either open `WebApp/index.html` locally (double-click or `file://...`) — not recommended for cross-origin requests.
 
 - Recommended: host frontend (e.g. via GitHub Pages) and point it to backend server URL (with WebSocket).
 

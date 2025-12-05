@@ -1,143 +1,203 @@
-# DEPI_Final — Real-Time Sign Language Translator
+# Sign Language Translator
 
-**DEPI_Final** is a project that aims to provide **real-time translation of sign language** from webcam video feed to text. It leverages ML / Deep Learning, computer vision, and a WebSocket-based backend to process frames, predict gestures, and return predictions to a frontend client.
+A real-time American Sign Language (ASL) alphabet translator application that uses Computer Vision and Deep Learning to interpret hand gestures into text. The system consists of a Python-based backend server (FastAPI) and a modern web-based frontend.
 
-## 🔎 Overview
+## 🚀 Features
 
-- Converts real-time video feed from user’s webcam into sign language landmarks, then feeds those landmarks into a trained model to generate predictions.
-- Offers a **client-side frontend** (HTML + JS) for live webcam feed and real-time display of predictions/translated characters.
-- Includes a **backend server** (Python, FastAPI / WebSocket) that accepts frames via WebSocket, does processing (landmarks → model → prediction), and sends predictions back to the client.
-- Designed to support deployment: frontend can be hosted e.g. via GitHub Pages; backend can run locally or on server; option to expose backend via tunneling (e.g. Ngrok) so frontend can connect remotely.
+- **Real-time Translation:** Instantly translates hand gestures into text using a webcam.
+- **Sentence Builder:** Construct full sentences with features to add spaces and delete characters.
+- **Client-Server Architecture:** Decoupled frontend and backend communicating via WebSockets.
+- **Advanced Computer Vision:** Utilizes MediaPipe for robust hand landmark detection.
+- **Deep Learning Model:** Powered by a TensorFlow/Keras model trained on ASL landmarks.
+- **Responsive UI:** Modern and user-friendly interface.
 
-## 📁 Repository Structure
+## 🛠️ Tech Stack
 
-```
-    DEPI_Final/
-    │
-    ├─ Models/ ← Contains pretrained models and_classes
-    │ ├─ asl_landmarks_final.h5
-    │ ├─ asl_landmarks_best.h5
-    │ └─ asl_landmarks_classes.pkl
-    │
-    ├─ WebApp/ ← Frontend code (HTML + JS + CSS)
-    │ └─ index.html ← Client-side interface (webcam feed, UI)
-    │
-    ├─ server.py ← WebSocket backend server (FastAPI)
-    ├─ mock_ws_server.py ← Optional: mock WebSocket server that sends random predictions
-    ├─ requirements / pyproject.toml ← Dependencies and environment configuration
-    └─ README.md ← This documentation file
-```
+### Backend
+- **Language:** Python 3.12+
+- **Framework:** FastAPI (with WebSockets)
+- **ML/AI:** TensorFlow/Keras, MediaPipe, OpenCV, Scikit-learn
+- **Data Processing:** NumPy, Pandas
 
-## 🛠️ Setup & Run
+### Frontend
+- **Core:** HTML5, Vanilla JavaScript
+- **Communication:** WebSockets
 
-### Prerequisites
-
-- Python 3.12+
-- Virtual environment tool (e.g., `uv`, `venv`, or `conda`)
-- `pip` / `uv sync` to install dependencies
-- Webcam (for live feed)
-- (Optional) Ngrok — if you want to expose backend to internet for remote frontend usage
-
-### Installation & Running Locally
-
-1. Clone your fork of the repo:
-
-   ```bash
-    git clone https://github.com/YourUsername/DEPI_Final.git
-    cd DEPI_Final
-
-   ```
-
-2. Create & activate virtual environment, then install dependencies:
-
-   `uv sync    # or pip install -r requirements.txt if you have that file`
-
-3. Start backend server:
-
-- For real model:
-  `uv run uvicorn server:app --host 0.0.0.0 --port 8080 --reload`
-
-4. Open the client:
-
-- Either open `WebApp/index.html` locally (double-click or `file://...`) — not recommended for cross-origin requests.
-
-- Recommended: host frontend (e.g. via GitHub Pages) and point it to backend server URL (with WebSocket).
-
-### (Optional) Expose Backend via Ngrok
-
-If backend runs on localhost and you want frontend (hosted elsewhere) to connect:
-`ngrok http 8080`
-
-Copy the generated public URL (e.g. `https://xyz123.ngrok-free.app`) and in `WebApp/index.html`, set:
-`const WEBSOCKET_URL = "wss://xyz123.ngrok-free.app/sign-model";`
-
-Then deploy or open frontend and it will connect to backend via Ngrok.
-
-### 🚀 Deployment (Frontend + Backend)
-
-- Frontend:
-
-  - Copy `WebApp/index.html` (or entire WebApp folder) into `docs/` directory at root, then enable GitHub Pages for branch `main`, `folder` `/docs`.
-
-  - After push, site will be available at `https://<YourUsername>.github.io/DEPI_Final/`
-
-- Backend:
-
-  - Run server as described above (on your machine or a remote VM).
-
-  - If remote — ensure public address or reverse-proxy; or use Ngrok to create secure tunnel.
-
-  - Update `WEBSOCKET_URL` in frontend accordingly.
-
-### ✔️ What works / What to know
-
-- ✅ Real-time webcam capture & streaming via browser
-- ✅ Landmark detection + ML model inference (provided the `Models/` files are present)
-- ✅ Prediction display on frontend (live, per frame)
-- ✅ Mock server support — useful for UI testing without running ML backend
-- ⚠️ Real model predictions depend on correct frame preprocessing and model input shape. If results are random or incorrect, check:
-  
-  - Model loading path
-  - Preprocessing steps (resizing, normalization, landmarks extraction)
-  - That webcam feed resolution matches model expectations
-
-### 📚 Technologies & Libraries Used
-
-- Python (backend)
-- FastAPI & WebSockets — server-side realtime communication
-- TensorFlow — deep learning model for gesture recognition
-- MediaPipe — hand / pose landmark detection from webcam frames
-- Frontend: HTML, JavaScript, CSS
-- Optional: tunneling via ngrok for public access
-
-### 🎯 How to Use
-
-1. Launch backend server (or mock server).
-2. Set `WEBSOCKET_URL` in frontend to match backend (localhost or Ngrok URL).
-3. Open frontend page (locally or hosted).
-4. Allow camera access — webcam feed will show.
-5. Perform sign language gestures — predictions (or mock predictions) will appear live.
-
-### 🧑‍💻 Contributing
-
-Contributions are welcome! Some ideas:
-
-- Improve model — retrain with more data, better accuracy
-- Add functionality: full-word / sentence recognition instead of just character-by-character
-- Add UI enhancements: better layout, mobile support, accessibility
-- Add features: logging, saving sessions, exporting translated text
-  To contribute:
+## 📂 Project Structure
 
 ```
-git fork
-git checkout -b feature/<your-feature-name>
-make changes
-git commit -m "Add <feature>"
-git push origin feature/<your-feature-name>
-# then open Pull Request
+.
+├── app/
+│   └── server.py          # Main FastAPI server and WebSocket handler
+├── Models/
+│   ├── asl_landmarks_final.h5   # Trained Keras model
+│   └── asl_landmarks_classes.pkl # Class labels encoder
+├── notebooks/
+│   └── Copy_of_DEPI_Project.ipynb # Model training notebook
+├── index.html             # Frontend client application
+├── pyproject.toml         # Project configuration and dependencies
+├── uv.lock                # Dependency lock file
+└── README.md              # Project documentation
 ```
 
-### 📄 License & Credits
+## 📋 Prerequisites
+
+- Python 3.12 or higher
+- A webcam
+- [uv](https://github.com/astral-sh/uv) (Recommended for dependency management) OR `pip`
+
+## ⚙️ Installation
+
+1.  **Clone the repository:**
+    ```bash
+    git clone <repository-url>
+    cd <repository-folder>
+    ```
+
+2.  **Install Dependencies:**
+
+    **Using `uv` (Recommended):**
+    ```bash
+    uv sync
+    ```
+
+    **Using `pip`:**
+    ```bash
+    pip install fastapi[standard] uvicorn tensorflow opencv-python mediapipe numpy pandas scikit-learn
+    ```
+
+## 🚀 Usage
+
+### 1. Start the Backend Server
+
+Run the server using Python. Make sure you are in the project root directory.
+
+**Using `uv`:**
+```bash
+uv run app/server.py
+```
+
+**Using standard Python:**
+```bash
+python app/server.py
+```
+
+The server will start on `http://0.0.0.0:8080`.
+
+### 2. Configure the Frontend
+
+1.  Open `index.html` in a text editor.
+2.  Locate the `WEBSOCKET_URL` constant (around line 93).
+3.  Update it to point to your local server:
+    ```javascript
+    const WEBSOCKET_URL = "ws://localhost:8080/sign-model";
+    ```
+    *(Note: The default value might be set to an ngrok URL, which won't work for local testing unless you are tunneling.)*
+
+### 3. Run the Application
+
+1.  Open `index.html` in your web browser.
+2.  Allow camera access when prompted.
+3.  Wait for the connection status to turn **Green** ("Connected").
+4.  Start signing! The predicted characters will appear on the screen, and you can build sentences.
+
+# 🌐 Running the Application Using Ngrok (Tunneling Mode)
+
+If you want the deployed frontend on **GitHub Pages** to communicate with your locally running backend, you must expose your local server using **Ngrok**.
+This allows external clients (like your GitHub Pages site) to connect to your machine securely.
+
+### ✔️ 1. Download & Place `ngrok.exe`
+1. Download ngrok from the official website:
+   https://ngrok.com/download
+2. Place the downloaded `ngrok.exe` file **inside the project root directory**, next to:
+```text
+DEPI_Final/
+├─ ngrok.exe
+├─ app/
+├─ Models/
+├─ WebApp/
+└─ server.py
+```
+
+---
+
+### ✔️ 2. Authenticate Ngrok
+Open a terminal in the project root and run:
+
+```bash
+./ngrok.exe config add-authtoken <YOUR_NGROK_AUTH_TOKEN>
+```
+Replace `<YOUR_NGROK_AUTH_TOKEN>` with the token from your Ngrok dashboard.
+
+### ✔️ 3. Start Ngrok Tunnel
+Still in the root directory, run:
+
+```bash
+./ngrok.exe http 8080
+```
+Ngrok will generate a public HTTPS/WebSocket-safe URL like:
+
+```text
+https://extranuclear-tiara-semimalignantly.ngrok-free.dev
+```
+Copy the URL shown under Forwarding.
+
+### ✔️ 4. Update the Frontend (WebSocket URL)
+In your deployed or local `index.html`, ensure the following line points to your Ngrok tunnel:
+
+```javascript
+const WEBSOCKET_URL = "wss://extranuclear-tiara-semimalignantly.ngrok-free.dev/sign-model";
+```
+**Important:**
+Always use `wss://` (secure WebSocket) with Ngrok, not `ws://`.
+
+### ✔️ 5. Start the Backend Server
+Open a new terminal window and run the backend while Ngrok is still running:
+
+**Using uv:**
+
+```bash
+uv run app/server.py
+```
+
+**Or using Python directly:**
+
+```bash
+python app/server.py
+```
+
+It will start at:
+
+```text
+http://0.0.0.0:8080
+```
+
+### ✔️ 6. Open the Deployed Frontend (GitHub Pages)
+Your frontend is already deployed at:
+
+🔗 https://samyadel123.github.io/DEPI_Final/
+
+**Now:**
+
+1. Open the link
+2. Allow camera access
+3. Wait for the status indicator to turn **Green** ("Connected")
+4. Begin signing — predictions will appear in real-time
+
+### 🎉 You're All Set!
+Your GitHub Pages frontend is now successfully connected to your local backend through Ngrok, enabling real-time sign language detection anywhere on the web.
+
+
+## 🧠 Model Details
+
+The system uses a custom-trained Neural Network that processes hand landmarks extracted by MediaPipe.
+- **Input:** 63 coordinates (x, y, z) for 21 hand landmarks.
+- **Output:** Classification of the ASL alphabet character.
+- **Smoothing:** Predictions are smoothed over a 5-frame window to reduce jitter.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 - Built by:
 
@@ -150,5 +210,3 @@ git push origin feature/<your-feature-name>
   - Kirollos Safwat
 
 - Uses open-source libraries: TensorFlow, FastAPI, MediaPipe, etc.
-
-- Feel free to reuse, extend, adapt — with proper acknowledgment 👍

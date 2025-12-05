@@ -219,7 +219,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 - Hosting & Tunneling: Deployed the frontend on GitHub Pages and used ngrok to create a tunnel linking the browser to the backend.
 - Future Research: Started experimenting with a MediaPipe + RNN model to support dynamic gesture recognition.
 
-### Mazen Arafat & Fouad Ramzy & Kirollos Safwat
+### Mazen Arafat, Fouad Ramzy & Kirollos Safwat
 
 - Applied landmarks approach and trained MLP Model
 - Made deployment using streamlit

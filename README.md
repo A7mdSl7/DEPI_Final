@@ -209,4 +209,29 @@ Contributions are welcome! Please feel free to submit a Pull Request.
   - Youssef Mustafa
   - Kirollos Safwat
 
-- Uses open-source libraries: TensorFlow, FastAPI, MediaPipe, etc.
+## Team members roles:
+
+### Samy Adel & Ahmed Salah:
+
+- Real-Time Analysis: Investigated why CNN and MobileNetV2 failed in real-time and proposed switching to a MediaPipe + MLP pipeline.
+- MLflow Integration: Set up MLflow to track experiments, metrics, and model versions for full reproducibility.
+- Deployment Implementation: Built both the frontend (index.html) and backend (server.py) with WebSockets for real-time communication.
+- Hosting & Tunneling: Deployed the frontend on GitHub Pages and used ngrok to create a tunnel linking the browser to the backend.
+- Future Research: Started experimenting with a MediaPipe + RNN model to support dynamic gesture recognition.
+
+### Mazen Arafat & Fouad Ramzy & Kirollos Safwat
+
+- Applied landmarks approach and trained MLP Model
+- Made deployment using streamlit
+- Prepared Presentation
+- Worked on Report
+
+### Mahmoud Elsherbiny & Youssef Mustafa
+
+- Trained CNN Model
+- Trained MobileNetV2 Model
+- Made comparison between Models
+- Worked on Report
+
+
+> Uses open-source libraries: TensorFlow, FastAPI, MediaPipe, etc.
